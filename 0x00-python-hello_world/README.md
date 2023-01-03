@@ -1,1 +1,1 @@
-Python taks	
+Python stage	
