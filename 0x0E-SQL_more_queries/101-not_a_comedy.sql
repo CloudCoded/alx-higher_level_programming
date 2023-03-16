@@ -1,20 +1,19 @@
--- Lists all genres of the database hbtn_0d_tvshows
--- not linked to the show Dexter.
--- Records are sorted by ascending genre name.
-SELECT DISTINCT `name`
-  FROM `tv_genres` AS g
-       INNER JOIN `tv_show_genres` AS s
-       ON g.`id` = s.`genre_id`
-
-       INNER JOIN `tv_shows` AS t
+-- Lists all shows without the comedy genre in the database hbtn_0d_tvshows.
+-- Records are ordered by ascending show title.
+SELECT DISTINCT `title`
+  FROM `tv_shows` AS t
+       LEFT JOIN `tv_show_genres` AS s
        ON s.`show_id` = t.`id`
-       WHERE g.`name` NOT IN
-             (SELECT `name`
-                FROM `tv_genres` AS g
-	             INNER JOIN `tv_show_genres` AS s
-		     ON g.`id` = s.`genre_id`
 
-		     INNER JOIN `tv_shows` AS t
+       LEFT JOIN `tv_genres` AS g
+       ON g.`id` = s.`genre_id`
+       WHERE t.`title` NOT IN
+             (SELECT `title`
+                FROM `tv_shows` AS t
+	             INNER JOIN `tv_show_genres` AS s
 		     ON s.`show_id` = t.`id`
-		     WHERE t.`title` = "Dexter")
- ORDER BY g.`name`;
+
+		     INNER JOIN `tv_genres` AS g
+		     ON g.`id` = s.`genre_id`
+		     WHERE g.`name` = "Comedy")
+ ORDER BY `title`;
